@@ -29,7 +29,7 @@ If you still want to go ahead and use this, here is what you need to know:
 ----
 
 ```html
-<input type="text" value="April 1, 1999 10:12 pm" data-time-format="MMMM d, yyyy, h:mm tt" />
+<input type="text" value="April 1, 1999 10:12 pm" data-time-format="MMMM d, yyyy h:mm tt" />
 ```
 ```javascript
 $('input').clientTime();
@@ -38,7 +38,7 @@ $('input').clientTime();
 ----
 
 ```html
-<div data-time-format="MMMM d, yyyy, h:mm tt">April 1, 1999 10:12 pm</div>
+<div data-time-format="MMMM d, yyyy h:mm tt">April 1, 1999 10:12 pm</div>
 ```
 ```javascript
 $('div').clientTime();
