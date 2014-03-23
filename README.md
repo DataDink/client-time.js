@@ -23,3 +23,25 @@ If you still want to go ahead and use this, here is what you need to know:
 * Parser:  This is a regular expression describing what the value will look like
 * Reader:  A function that returns a formatted value pulled from a mapped date object
 * Mapper:  Applies a value parsed from a date/time string to a javascript Date object
+
+**Samples:**
+
+----
+
+```html
+<input type="text" value="April 1, 1999 10:12 pm" data-time-format="MMMM d, yyyy, h:mm tt" />
+```
+```javascript
+$('input').clientTime();
+```
+
+----
+
+```html
+<div data-time-format="MMMM d, yyyy, h:mm tt">April 1, 1999 10:12 pm</div>
+```
+```javascript
+$('div').clientTime();
+```
+
+----
