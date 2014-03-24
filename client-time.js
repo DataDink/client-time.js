@@ -1,37 +1,37 @@
 (function ($) {
-	// data-time-format:    (required) The format describing how the time should be parsed and displayed.
-	// data-time-utc:       (optional) The UTC time to be converted and displayed. Pulls from .text() or .val() if not set.
+    // data-time-format:    (required) The format describing how the time should be parsed and displayed.
+    // data-time-utc:       (optional) The UTC time to be converted and displayed. Pulls from .text() or .val() if not set.
 
-	var longMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	var shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-	var longDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-	var shortDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-	var ordinals = ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'];
+    var longMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var longDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var shortDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var ordinals = ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'];
 
     var formatters = [
-		{ pattern: 'yyyy', parser: '\\d{4}',              reader: function () { return leadZeros(this.year, 4); },              mapper: function (value) { this.setUTCFullYear(parseInt(value)); } },
-		{ pattern: 'yy',   parser: '\\d{2}',              reader: function () { return leadZeros(this.year, 2); },              mapper: function (value) { this.setUTCFullYear(parseInt(getCentury() + value)); } },
-		{ pattern: 'MMMM', parser: longMonths.join('|'),  reader: function () { return longMonths[this.month]; },               mapper: function (value) { this.setUTCMonth(indexOf(longMonths, value)); } },
-		{ pattern: 'MMM',  parser: shortMonths.join('|'), reader: function () { return shortMonths[this.month]; },              mapper: function (value) { this.setUTCMonth(indexOf(shortMonths, value)); } },
-		{ pattern: 'MM',   parser: '\\d{2}',              reader: function () { return leadZeros(this.month, 2); },             mapper: function (value) { this.setUTCMonth(parseInt(value) - 1); } },
-		{ pattern: 'M',    parser: '\\d{1,2}',            reader: function () { return this.month; },                           mapper: function (value) { this.setUTCMonth(parseInt(value) - 1); } },
-		{ pattern: 'dddd', parser: longDays.join('|'),    reader: function () { return longDays[this.dayOfWeek]; },             mapper: function (value) { } },
-		{ pattern: 'ddd',  parser: shortDays.join('|'),   reader: function () { return shortDays[this.dayOfWeek]; },            mapper: function (value) { } },
-		{ pattern: 'dd',   parser: '\\d{2}',              reader: function () { return leadZeros(this.day, 2); },               mapper: function (value) { this.setUTCDate(parseInt(value)); } },
-		{ pattern: 'd',    parser: '\\d{1,2}',            reader: function () { return this.day; },                             mapper: function (value) { this.setUTCDate(parseInt(value)); } },
-		{ pattern: 'HH',   parser: '\\d{2}',              reader: function () { return leadZeros(this.hour24, 2); },            mapper: function (value) { this.setUTCHours(parseInt(value)); } },
-		{ pattern: 'H',    parser: '\\d{1,2}',            reader: function () { return this.hour24; },                          mapper: function (value) { this.setUTCHours(parseInt(value)); } },
-		{ pattern: 'hh',   parser: '\\d{2}',              reader: function () { return leadZeros(this.hour12, 2); },            mapper: function (value) { this.setUTCHours(parseInt(value) % 12); } },
-		{ pattern: 'h',    parser: '\\d{1,2}',            reader: function () { return this.hour12; },                          mapper: function (value) { this.setUTCHours(parseInt(value) % 12); } },
-		{ pattern: 'mm',   parser: '\\d{2}',              reader: function () { return leadZeros(this.minute, 2); },            mapper: function (value) { this.setUTCMinutes(parseInt(value)); } },
-		{ pattern: 'm',    parser: '\\d{1,2}',            reader: function () { return this.minute; },                          mapper: function (value) { this.setUTCMinutes(parseInt(value)); } },
-		{ pattern: 'ss',   parser: '\\d{2}',              reader: function () { return leadZeros(this.second, 2); },            mapper: function (value) { this.setUTCSeconds(parseInt(value)); } },
-		{ pattern: 's',    parser: '\\d{1,2}',            reader: function () { return this.second; },                          mapper: function (value) { this.setUTCSeconds(parseInt(value)); } },
-		{ pattern: 'o',    parser: 'th|st|nd|rd',         reader: function () { return this.ordinal; },                         mapper: function (value) { } },
-		{ pattern: 'TT',   parser: 'AM|PM',               reader: function () { return this.ampm.toUpperCase(); },              mapper: function (value) { pmAdjust(this, value); } },
-		{ pattern: 'T',    parser: 'A|P',                 reader: function () { return this.ampm.toUpperCase().substr(0, 1); }, mapper: function (value) { pmAdjust(this, value); } },
-		{ pattern: 'tt',   parser: 'am|pm',               reader: function () { return this.ampm.toLowerCase(); },              mapper: function (value) { pmAdjust(this, value); } },
-		{ pattern: 't',    parser: 'a|p',                 reader: function () { return this.ampm.toLowerCase().substr(0, 1); }, mapper: function (value) { pmAdjust(this, value); } }
+        { pattern: 'yyyy', parser: '\\d{4}',              reader: function () { return leadZeros(this.year, 4); },              mapper: function (value) { this.setUTCFullYear(parseInt(value)); } },
+        { pattern: 'yy',   parser: '\\d{2}',              reader: function () { return leadZeros(this.year, 2); },              mapper: function (value) { this.setUTCFullYear(parseInt(getCentury() + value)); } },
+        { pattern: 'MMMM', parser: longMonths.join('|'),  reader: function () { return longMonths[this.month]; },               mapper: function (value) { this.setUTCMonth(indexOf(longMonths, value)); } },
+        { pattern: 'MMM',  parser: shortMonths.join('|'), reader: function () { return shortMonths[this.month]; },              mapper: function (value) { this.setUTCMonth(indexOf(shortMonths, value)); } },
+        { pattern: 'MM',   parser: '\\d{2}',              reader: function () { return leadZeros(this.month, 2); },             mapper: function (value) { this.setUTCMonth(parseInt(value) - 1); } },
+        { pattern: 'M',    parser: '\\d{1,2}',            reader: function () { return this.month; },                           mapper: function (value) { this.setUTCMonth(parseInt(value) - 1); } },
+        { pattern: 'dddd', parser: longDays.join('|'),    reader: function () { return longDays[this.dayOfWeek]; },             mapper: function (value) { } },
+        { pattern: 'ddd',  parser: shortDays.join('|'),   reader: function () { return shortDays[this.dayOfWeek]; },            mapper: function (value) { } },
+        { pattern: 'dd',   parser: '\\d{2}',              reader: function () { return leadZeros(this.day, 2); },               mapper: function (value) { this.setUTCDate(parseInt(value)); } },
+        { pattern: 'd',    parser: '\\d{1,2}',            reader: function () { return this.day; },                             mapper: function (value) { this.setUTCDate(parseInt(value)); } },
+        { pattern: 'HH',   parser: '\\d{2}',              reader: function () { return leadZeros(this.hour24, 2); },            mapper: function (value) { this.setUTCHours(parseInt(value)); } },
+        { pattern: 'H',    parser: '\\d{1,2}',            reader: function () { return this.hour24; },                          mapper: function (value) { this.setUTCHours(parseInt(value)); } },
+        { pattern: 'hh',   parser: '\\d{2}',              reader: function () { return leadZeros(this.hour12, 2); },            mapper: function (value) { this.setUTCHours(parseInt(value) % 12); } },
+        { pattern: 'h',    parser: '\\d{1,2}',            reader: function () { return this.hour12; },                          mapper: function (value) { this.setUTCHours(parseInt(value) % 12); } },
+        { pattern: 'mm',   parser: '\\d{2}',              reader: function () { return leadZeros(this.minute, 2); },            mapper: function (value) { this.setUTCMinutes(parseInt(value)); } },
+        { pattern: 'm',    parser: '\\d{1,2}',            reader: function () { return this.minute; },                          mapper: function (value) { this.setUTCMinutes(parseInt(value)); } },
+        { pattern: 'ss',   parser: '\\d{2}',              reader: function () { return leadZeros(this.second, 2); },            mapper: function (value) { this.setUTCSeconds(parseInt(value)); } },
+        { pattern: 's',    parser: '\\d{1,2}',            reader: function () { return this.second; },                          mapper: function (value) { this.setUTCSeconds(parseInt(value)); } },
+        { pattern: 'o',    parser: 'th|st|nd|rd',         reader: function () { return this.ordinal; },                         mapper: function (value) { } },
+        { pattern: 'TT',   parser: 'AM|PM',               reader: function () { return this.ampm.toUpperCase(); },              mapper: function (value) { pmAdjust(this, value); } },
+        { pattern: 'T',    parser: 'A|P',                 reader: function () { return this.ampm.toUpperCase().substr(0, 1); }, mapper: function (value) { pmAdjust(this, value); } },
+        { pattern: 'tt',   parser: 'am|pm',               reader: function () { return this.ampm.toLowerCase(); },              mapper: function (value) { pmAdjust(this, value); } },
+        { pattern: 't',    parser: 'a|p',                 reader: function () { return this.ampm.toLowerCase().substr(0, 1); }, mapper: function (value) { pmAdjust(this, value); } }
     ];
 
     var defaults = {
